@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+      "target": "es2019",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "./dist/",
+      "rootDirs": ["./src/"],
+      "strict": true,
+      "noImplicitThis": true,
+
+      "esModuleInterop": true,
+      "sourceRoot": "./src/",
+      "experimentalDecorators": true,
+      "resolveJsonModule": true,
+      "lib": [
+          "dom",
+          "scripthost",
+          "es2019"
+      ],
+      "baseUrl": ".",
+      "paths": {
+          "app/*": ["src/*"],
+      },
+  },
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts",
+      "./dist"
+  ],
+  "include": [
+      "src/**/*",
+      ".eslintrc.js"
+  ]
+}
