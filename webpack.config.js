@@ -5,7 +5,10 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
   mode: "development",
 
-  entry: "./src/index.ts",
+  entry: {
+    ["main"]: ["./src/index.ts"],
+    ["registration"]: ["./src/registration.ts"],
+  },
 
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -23,8 +26,19 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "Events Registration App",
-      template: "./src/template.html",
+      template: "./src/index.html",
       filename: "index.html",
+      chunks: ["main"],
+      minify: {
+        collapseWhitespace: true,
+      },
+    }),
+
+    new HtmlWebpackPlugin({
+      title: "Events Registration App",
+      template: "./src/registration.html",
+      filename: "registration.html",
+      chunks: ["registration"],
       minify: {
         collapseWhitespace: true,
       },
@@ -58,4 +72,6 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
+
+  devtool: 'source-map',
 };

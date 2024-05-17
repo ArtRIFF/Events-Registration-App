@@ -1,0 +1,40 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:  sans-serif;
+  background-color: $accent-color;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+h1,h2,h3,h4,h5,p{
+  margin: 0;
+}
+
+.container {
+  width: $notebook-size;
+  margin: 0 auto;
+  padding: 0 10px;
+  align-self: center;
+
+  @media (max-width:$notebook-size) {
+    width: 100%;
+    padding: 0;
+   }
+}
