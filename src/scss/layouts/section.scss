@@ -69,7 +69,19 @@
       }
     }
   }
+
+  &_email {
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    @include font-value(300px, 20px, 30px);
+  }
 }
+
+.--participants {
+    min-height: 50px;
+    background-color: rgb(58, 133, 168);
+    }
 
 .registration {
   @include flex-kit(space-around);

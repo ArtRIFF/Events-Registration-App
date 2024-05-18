@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     ["main"]: ["./src/index.ts"],
     ["registration"]: ["./src/registration.ts"],
+    ["participants"]: ["./src/participants.ts"],
   },
 
   output: {
@@ -39,6 +40,16 @@ module.exports = {
       template: "./src/registration.html",
       filename: "registration.html",
       chunks: ["registration"],
+      minify: {
+        collapseWhitespace: true,
+      },
+    }),
+
+    new HtmlWebpackPlugin({
+      title: "Events Registration App",
+      template: "./src/participants.html",
+      filename: "participants.html",
+      chunks: ["participants"],
       minify: {
         collapseWhitespace: true,
       },
