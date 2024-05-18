@@ -916,7 +916,7 @@ module.exports = "data:font/ttf;base64,AAEAAAAQAQAABAAAR0RFRj6kOmsAAcbsAAADtkdQT
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"main": 0
+/******/ 			"participants": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -944,16 +944,16 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 var exports = __webpack_exports__;
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
+/*!*****************************!*\
+  !*** ./src/participants.ts ***!
+  \*****************************/
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __webpack_require__(/*! ./scss/style.scss */ "./src/scss/style.scss");
-console.log("Events board page");
+console.log("Event participants page");
 
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=main.bundle.js.map
+//# sourceMappingURL=participants.bundle.js.map

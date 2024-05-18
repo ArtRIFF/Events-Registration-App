@@ -1,0 +1,26 @@
+.footer {
+    width: 100%;
+    min-height: 100px;
+    border-top: 2px solid white; 
+    @include flex-kit(center);
+}
+
+.pagination {
+    width: 340px;
+    @include flex-kit(space-around);
+    @include font-value(600px, 20px, 0px);
+    &_numbers-wrapper {
+        @include flex-kit(space-around);
+    }
+
+    &_number + &_number {
+        margin-left: 30px;
+    }
+
+    a {
+        color: white;
+        &:hover {
+            color: $secondary-color;
+        }
+    }
+}

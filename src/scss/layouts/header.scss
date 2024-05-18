@@ -1,0 +1,18 @@
+.header {
+    width: 100%;
+    min-height: 100px;
+    border-bottom: 2px solid white;
+
+    &_container {
+        margin: 0 auto;
+        width: 80%;
+        height: inherit;
+    }
+
+    &_title {
+        font-family: $base-font, sans-serif;
+        font-style: italic;
+        color: white;
+        @include font-value(bold, 40px, 100px);
+    }
+}
