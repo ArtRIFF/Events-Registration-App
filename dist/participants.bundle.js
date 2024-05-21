@@ -788,6 +788,84 @@ module.exports = styleTagTransform;
 
 /***/ }),
 
+/***/ "./src/components/Card.ts":
+/*!********************************!*\
+  !*** ./src/components/Card.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createParticipantCard = exports.createEventCard = void 0;
+function createEventCard(data) {
+    const container = document.querySelector(".cards_container");
+    container.insertAdjacentHTML("afterbegin", `<div class="card">
+                    <div class="card_header">
+                        <h4 class="card_title">${data.title}</h4>
+                        <p class="card_data">${data.event_date.substring(0, 10)}</p>
+                    </div>
+                    <div class="card_organizer-wraper">
+                        <h3 class="card_organizator_description">Organizer:</h3>
+                        <h3 class="card_organizator">${data.organizer}</h3>
+                    </div>
+                    <div class="card_description-wrapper">
+                        <p class="card_description">${data.description}</p>
+                    </div>
+                    <div class="card_footer">
+                        <a class="card_register-link" href="./registration.html">Register</a>
+                        <a class="card_view-link" href="./participants&eventId=${data._id}">View</a>
+                    </div>
+                </div>
+        `);
+}
+exports.createEventCard = createEventCard;
+function createParticipantCard(data) {
+    const container = document.querySelector(".cards_container");
+    container.insertAdjacentHTML("afterbegin", `<div class="card --participants">
+        <div class="card_header">
+            <h4 class="card_title">${data.name}</h4>
+        </div>
+        <p class="card_email">
+            ${data.name}
+        </p>
+       </div>
+        `);
+}
+exports.createParticipantCard = createParticipantCard;
+
+
+/***/ }),
+
+/***/ "./src/helpers/sendRequest.ts":
+/*!************************************!*\
+  !*** ./src/helpers/sendRequest.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.sendRequest = void 0;
+const sendRequest = async (url, method = "GET", config = undefined) => {
+    return await fetch(url, {
+        method,
+        ...config,
+    }).then((response) => {
+        if (response.ok) {
+            if (method === "GET" || method === "POST" || method === "PUT") {
+                return response.json();
+            }
+            return response;
+        }
+        else {
+            throw new Error("error");
+        }
+    });
+};
+exports.sendRequest = sendRequest;
+
+
+/***/ }),
+
 /***/ "./src/fonts/Lato-BoldItalic.ttf":
 /*!***************************************!*\
   !*** ./src/fonts/Lato-BoldItalic.ttf ***!
@@ -949,8 +1027,21 @@ var exports = __webpack_exports__;
   \*****************************/
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const Card_1 = __webpack_require__(/*! ./components/Card */ "./src/components/Card.ts");
+const sendRequest_1 = __webpack_require__(/*! ./helpers/sendRequest */ "./src/helpers/sendRequest.ts");
 __webpack_require__(/*! ./scss/style.scss */ "./src/scss/style.scss");
-console.log("Event participants page");
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Event participants page");
+    const param = "eventId=";
+    const paramValue = localStorage.getItem(param);
+    (0, sendRequest_1.sendRequest)(`https://backend-events-registration-app.vercel.app/participans?eventId=${paramValue}`)
+        .then((response) => {
+        response.cards.forEach((data) => {
+            (0, Card_1.createParticipantCard)(data);
+        });
+    })
+        .catch((error) => console.log(error));
+});
 
 })();
 
