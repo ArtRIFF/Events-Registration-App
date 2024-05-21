@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       sendRequest(`https://backend-events-registration-app.vercel.app/participans?eventId=${paramValue}`)
         .then((response) => {
+            document.querySelector(".cards_loader")?.remove();
             response.cards.forEach((data: TParticipan) => {
                 createParticipantCard(data);
             });

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(()=>{
       const links = document.querySelectorAll(".card_view-link");
-      
+      document.querySelector(".cards_loader")?.remove();
       links.forEach((link)=>{
           link!.addEventListener("click", (event) => {
             event.preventDefault();
