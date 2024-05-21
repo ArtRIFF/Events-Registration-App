@@ -796,7 +796,7 @@ module.exports = styleTagTransform;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.createEventCard = void 0;
+exports.createParticipantCard = exports.createEventCard = void 0;
 function createEventCard(data) {
     const container = document.querySelector(".cards_container");
     container.insertAdjacentHTML("afterbegin", `<div class="card">
@@ -813,12 +813,25 @@ function createEventCard(data) {
                     </div>
                     <div class="card_footer">
                         <a class="card_register-link" href="./registration.html">Register</a>
-                        <a class="card_viev-link" href="./participants.html">View</a>
+                        <a class="card_view-link" href="./participants&eventId=${data._id}">View</a>
                     </div>
                 </div>
         `);
 }
 exports.createEventCard = createEventCard;
+function createParticipantCard(data) {
+    const container = document.querySelector(".cards_container");
+    container.insertAdjacentHTML("afterbegin", `<div class="card --participants">
+        <div class="card_header">
+            <h4 class="card_title">${data.name}</h4>
+        </div>
+        <p class="card_email">
+            ${data.name}
+        </p>
+       </div>
+        `);
+}
+exports.createParticipantCard = createParticipantCard;
 
 
 /***/ }),
@@ -1019,15 +1032,26 @@ const sendRequest_1 = __webpack_require__(/*! ./helpers/sendRequest */ "./src/he
 __webpack_require__(/*! ./scss/style.scss */ "./src/scss/style.scss");
 console.log("Events board page");
 document.addEventListener("DOMContentLoaded", function () {
-    (0, sendRequest_1.sendRequest)("https://backend-events-registration-app.vercel.app")
+    (0, sendRequest_1.sendRequest)("https://backend-events-registration-app.vercel.app/")
         .then((response) => {
         response.cards.forEach((data) => {
-            (0, Card_1.createEventCard)({
-                _id: data._id,
-                title: data.title,
-                event_date: data.event_date,
-                organizer: data.organizer,
-                description: data.description
+            (0, Card_1.createEventCard)(data);
+        });
+    })
+        .then(() => {
+        const links = document.querySelectorAll(".card_view-link");
+        links.forEach((link) => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault();
+                const linkHref = link === null || link === void 0 ? void 0 : link.getAttribute("href");
+                const param = "eventId=";
+                const startIndex = linkHref === null || linkHref === void 0 ? void 0 : linkHref.lastIndexOf(param);
+                const paramValue = linkHref === null || linkHref === void 0 ? void 0 : linkHref.slice(startIndex + param.length, linkHref.length);
+                const linkForTransition = linkHref === null || linkHref === void 0 ? void 0 : linkHref.slice(0, startIndex - 1);
+                localStorage.setItem(param, paramValue);
+                console.log(linkHref);
+                console.log(paramValue);
+                window.location.href = `${linkForTransition}.html`;
             });
         });
     })
