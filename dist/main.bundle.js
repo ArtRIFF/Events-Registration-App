@@ -62,6 +62,33 @@ exports.createParticipantCard = createParticipantCard;
 
 /***/ }),
 
+/***/ "./src/components/Pagination.ts":
+/*!**************************************!*\
+  !*** ./src/components/Pagination.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createPagination = void 0;
+function createPagination(cardAmount) {
+    const container = document.querySelector(".pagination_numbers-wrapper");
+    const pagesAmount = Math.ceil(cardAmount / 5);
+    for (let index = pagesAmount; index > 0; index--) {
+        container.insertAdjacentHTML("afterbegin", `
+            <li class="pagination_number">
+                    <a href="?page=${index}" class="pagination_number-link">
+                        <p class="a pagination_number_text">${index}</p>
+                    </a>
+                </li>
+            `);
+    }
+}
+exports.createPagination = createPagination;
+
+
+/***/ }),
+
 /***/ "./src/helpers/sendRequest.ts":
 /*!************************************!*\
   !*** ./src/helpers/sendRequest.ts ***!
@@ -143,13 +170,17 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Card_1 = __webpack_require__(/*! ./components/Card */ "./src/components/Card.ts");
 const sendRequest_1 = __webpack_require__(/*! ./helpers/sendRequest */ "./src/helpers/sendRequest.ts");
 __webpack_require__(/*! ./scss/style.scss */ "./src/scss/style.scss");
+const Pagination_1 = __webpack_require__(/*! ./components/Pagination */ "./src/components/Pagination.ts");
 console.log("Events board page");
-document.addEventListener("DOMContentLoaded", function () {
-    (0, sendRequest_1.sendRequest)("https://backend-events-registration-app.vercel.app/")
+let url = "https://backend-events-registration-app.vercel.app";
+const urlWidth = url.length;
+function loadContent(url) {
+    (0, sendRequest_1.sendRequest)(url)
         .then((response) => {
         response.cards.forEach((data) => {
             (0, Card_1.createEventCard)(data);
         });
+        (0, Pagination_1.createPagination)(response.totalCardCount);
     })
         .then(() => {
         var _a;
@@ -164,13 +195,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 const paramValue = linkHref === null || linkHref === void 0 ? void 0 : linkHref.slice(startIndex + param.length, linkHref.length);
                 const linkForTransition = linkHref === null || linkHref === void 0 ? void 0 : linkHref.slice(0, startIndex - 1);
                 localStorage.setItem(param, paramValue);
-                console.log(linkHref);
-                console.log(paramValue);
                 window.location.href = `${linkForTransition}.html`;
+            });
+        });
+        const paginationNumbers = document.querySelectorAll(".pagination_number-link");
+        paginationNumbers.forEach((paginationLink) => {
+            paginationLink.addEventListener("click", (event) => {
+                event.preventDefault();
+                const linkHref = paginationLink === null || paginationLink === void 0 ? void 0 : paginationLink.getAttribute("href");
+                const param = "page=";
+                const startIndex = linkHref === null || linkHref === void 0 ? void 0 : linkHref.lastIndexOf(param);
+                const paramValue = linkHref === null || linkHref === void 0 ? void 0 : linkHref.slice(startIndex + param.length, linkHref.length);
+                localStorage.setItem(param, paramValue);
+                const cards = document.querySelectorAll(".card");
+                const paginationItems = document.querySelectorAll(".pagination_number");
+                cards.forEach((item) => item.remove());
+                paginationItems.forEach((item) => item.remove());
+                const originalURL = "https://backend-events-registration-app.vercel.app".slice(0, urlWidth);
+                url = originalURL + "/?" + param + paramValue;
+                loadContent(url);
             });
         });
     })
         .catch((error) => console.log(error));
+}
+document.addEventListener("DOMContentLoaded", function () {
+    loadContent(url);
 });
 
 })();
