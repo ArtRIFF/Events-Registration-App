@@ -174,18 +174,18 @@ const Pagination_1 = __webpack_require__(/*! ./components/Pagination */ "./src/c
 console.log("Events board page");
 let url = "https://backend-events-registration-app.vercel.app";
 const urlWidth = url.length;
+const loaderHTMLElement = document.querySelector(".cards_loader");
 function loadContent(url) {
     (0, sendRequest_1.sendRequest)(url)
         .then((response) => {
         response.cards.forEach((data) => {
             (0, Card_1.createEventCard)(data);
         });
+        loaderHTMLElement === null || loaderHTMLElement === void 0 ? void 0 : loaderHTMLElement.classList.add("hide");
         (0, Pagination_1.createPagination)(response.totalCardCount);
     })
         .then(() => {
-        var _a;
         const links = document.querySelectorAll(".card_view-link");
-        (_a = document.querySelector(".cards_loader")) === null || _a === void 0 ? void 0 : _a.remove();
         links.forEach((link) => {
             link.addEventListener("click", (event) => {
                 event.preventDefault();
@@ -213,6 +213,7 @@ function loadContent(url) {
                 paginationItems.forEach((item) => item.remove());
                 const originalURL = "https://backend-events-registration-app.vercel.app".slice(0, urlWidth);
                 url = originalURL + "/?" + param + paramValue;
+                loaderHTMLElement === null || loaderHTMLElement === void 0 ? void 0 : loaderHTMLElement.classList.remove("hide");
                 loadContent(url);
             });
         });

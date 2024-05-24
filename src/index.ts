@@ -6,18 +6,18 @@ import { createPagination } from "./components/Pagination";
 console.log("Events board page");
 let url = "https://backend-events-registration-app.vercel.app";
 const urlWidth = url.length;
+const loaderHTMLElement  = document.querySelector(".cards_loader");
 function loadContent(url: string) {
   sendRequest(url)
     .then((response) => {
       response.cards.forEach((data: TEventsCard) => {
         createEventCard(data);
       });
-
+      loaderHTMLElement?.classList.add("hide");
       createPagination(response.totalCardCount);
     })
     .then(() => {
       const links = document.querySelectorAll(".card_view-link");
-      document.querySelector(".cards_loader")?.remove();
       links.forEach((link) => {
         link!.addEventListener("click", (event) => {
           event.preventDefault();
@@ -59,6 +59,7 @@ function loadContent(url: string) {
               urlWidth
             );
           url = originalURL + "/?" + param + paramValue;
+          loaderHTMLElement?.classList.remove("hide");
           loadContent(url);
         });
       });
